@@ -1,0 +1,114 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.0/schema.json",
+  "organizeImports": { "enabled": true },
+  "files": {
+    "include": ["**/*.ts", "**/*.tsx", "**/*.css", "**/*.scss"],
+    "ignore": ["test-reports/**"]
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    },
+    "globals": ["React"]
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "error",
+        "noForEach": "off",
+        "noThisInStatic": "off",
+        "noUselessFragments": "off"
+      },
+      "style": {
+        "useTemplate": "off",
+        "useSelfClosingElements": "error",
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noSkippedTests": "warn",
+        "noConsoleLog": "warn",
+        "noExplicitAny": "off",
+        "noEmptyInterface": "off",
+        "useValidTypeof": "off"
+      },
+      "correctness": {
+        "useHookAtTopLevel": "error",
+        "noUndeclaredVariables": "error",
+        "noUnusedVariables": "warn",
+        "noUnusedPrivateClassMembers": "warn",
+        "noUnusedImports": "warn",
+        "useExhaustiveDependencies": "off",
+        "noChildrenProp": "error"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useKeyWithClickEvents": "off",
+        "useButtonType": "off",
+        "useValidAnchor": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "include": [
+        "jest-setup.ts",
+        "src/**/*.spec.ts",
+        "src/**/*.spec.tsx",
+        "src/**/*.mock.tsx",
+        "src/**/*.mock.ts",
+        "src/tests"
+      ],
+      "javascript": {
+        "globals": [
+          "jest",
+          "expect",
+          "test",
+          "it",
+          "describe",
+          "beforeEach",
+          "afterEach",
+          "afterAll",
+          "React"
+        ]
+      },
+      "linter": {
+        "rules": {
+          "correctness": {
+            "useJsxKeyInIterable": "off",
+            "useHookAtTopLevel": "off"
+          },
+          "suspicious": {
+            "noImplicitAnyLet": "off",
+            "noDuplicateTestHooks": "off"
+          },
+          "performance": {
+            "noDelete": "off"
+          }
+        }
+      }
+    }
+  ]
+}

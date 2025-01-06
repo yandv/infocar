@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(cuid())
+
+  fullName String
+  email    String @unique
+
+  password String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UserCar   UserCar[]
+  CarSupply CarSupply[]
+
+  @@map("users")
+}
+
+model UserCar {
+  id String @id @default(cuid())
+
+  userId String
+  carId  String
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  car  Car  @relation(fields: [carId], references: [id])
+
+  @@unique([userId, carId])
+  @@map("user_cars")
+}
+
+model Car {
+  id String @id @default(cuid())
+
+  make  String
+  model String
+  year  Int
+  plate String @unique
+
+  createdAt DateTime @default(now())
+
+  UserCar    UserCar[]
+  CarSupply  CarSupply[]
+  CarMileage CarMileage[]
+
+  @@map("cars")
+}
+
+model GasStation {
+  id String @id @default(cuid())
+
+  name String
+
+  address String
+  city    String
+  state   String
+
+  CarSupply      CarSupply[]
+  GasStationFuel GasStationFuel[]
+
+  @@map("gas_stations")
+}
+
+model GasStationFuel {
+  id String @id @default(cuid())
+
+  gasStationId String
+  fuelId       String
+
+  price Float
+
+  createdAt DateTime @default(now())
+
+  gasStation GasStation @relation(fields: [gasStationId], references: [id])
+  fuel       Fuel       @relation(fields: [fuelId], references: [id])
+
+  @@map("gas_station_fuels")
+}
+
+model Fuel {
+  id String @id @default(cuid())
+
+  name           String
+  CarSupply      CarSupply[]
+  GasStationFuel GasStationFuel[]
+
+  @@map("fuels")
+}
+
+model CarSupply {
+  id String @id @default(cuid())
+
+  totalPrice Float
+  liters     Float
+
+  userId       String
+  carId        String
+  gasStationId String
+  fuelId       String
+
+  createdAt DateTime @default(now())
+
+  user       User       @relation(fields: [userId], references: [id])
+  car        Car        @relation(fields: [carId], references: [id])
+  gasStation GasStation @relation(fields: [gasStationId], references: [id])
+  fuel       Fuel       @relation(fields: [fuelId], references: [id])
+
+  @@map("car_supplies")
+}
+
+model CarMileage {
+  id String @id @default(cuid())
+
+  carId   String
+  mileage BigInt
+
+  createdAt DateTime @default(now())
+
+  car Car @relation(fields: [carId], references: [id])
+
+  @@map("car_mileages")
+}
